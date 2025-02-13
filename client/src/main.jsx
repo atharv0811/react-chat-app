@@ -4,12 +4,15 @@ import './index.css'
 import App from './App.jsx'
 import { ThemeProvider } from './context/theme-provider'
 import { Toaster } from './components/ui/sonner'
+import { TooltipProvider } from './components/ui/tooltip'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider defaultTheme='light' storageKey="vite-ui-theme">
-      <Toaster />
-      <App />
+      <TooltipProvider>
+        <Toaster />
+        <App />
+      </TooltipProvider>
     </ThemeProvider>
   </StrictMode>,
 )
