@@ -1,6 +1,6 @@
 # Chat App
 
-A real-time chat application built with React, Node.js, Express, and MySQL.
+A real-time chat application built with React, Node.js, Express, and MongoDB.
 
 ## Features
 
@@ -13,7 +13,7 @@ A real-time chat application built with React, Node.js, Express, and MySQL.
 
 - **Frontend:** React, React Router, Axios, Socket.IO Client
 - **Backend:** Node.js, Express, Socket.IO, JWT Authentication
-- **Database:** MySQL
+- **Database:** MongoDB
 
 ## Installation
 
@@ -22,7 +22,7 @@ A real-time chat application built with React, Node.js, Express, and MySQL.
 Make sure you have the following installed:
 
 - Node.js
-- MySQL
+- MongoDB
 
 ### Setup
 
@@ -51,15 +51,12 @@ npm install
 
 #### 3. Configure the database
 
-- Create a MySQL database
-- Import the provided SQL file (if applicable)
-- Update the `.env` file in the `server` directory with your MySQL credentials:
+- Create a MongoDB database
+- Update the `.env` file in the `server` directory with your MongoDB credentials:
+
   ```env
   PORT = 3000
-  DB_HOST = 'localhost'
-  DB_NAME = 'reactchat'
-  DB_PASS = 'yourpassword'
-  DB_USERNAME = 'root'
+  MONGODB_URL = 'connection_string'
   JWT_SECRET = 'your_jwt_secret'
   ```
 

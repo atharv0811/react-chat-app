@@ -1,8 +1,8 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const userModel = require("../models/user.model");
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import userModel from '../models/user.model.js'
 
-exports.signup = async (req, res) => {
+export const signup = async (req, res) => {
     try {
         const { name, phoneNo, password } = req.body;
 
@@ -12,11 +12,7 @@ exports.signup = async (req, res) => {
                 .json({ success: false, message: "All fields are required" });
         }
 
-        const isUserExist = await userModel.findOne({
-            where: {
-                phoneNo,
-            },
-        });
+        const isUserExist = await userModel.findOne({ phoneNo });
 
         if (isUserExist) {
             return res
@@ -28,17 +24,20 @@ exports.signup = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await userModel.create({
+        const newUser = new userModel({
             id: nanoid(6),
             name,
             phoneNo,
             password: hashedPassword,
         });
 
+        await newUser.save();
+
         return res.status(201).json({
             success: true,
             message: "User created successfully",
         });
+
     } catch (error) {
         console.log("Error in signup", error);
         return res.status(500).json({
@@ -48,7 +47,7 @@ exports.signup = async (req, res) => {
     }
 };
 
-exports.signin = async (req, res) => {
+export const signin = async (req, res) => {
     try {
         const { phoneNo, password } = req.body;
 
@@ -58,11 +57,7 @@ exports.signin = async (req, res) => {
                 .json({ success: false, message: "All fields are required" });
         }
 
-        const user = await userModel.findOne({
-            where: {
-                phoneNo,
-            },
-        });
+        const user = await userModel.findOne({ phoneNo });
 
         if (!user) {
             return res.status(404).json({
@@ -89,6 +84,7 @@ exports.signin = async (req, res) => {
             message: "User logged in successfully",
             token,
         });
+
     } catch (error) {
         console.log("Error while login user", error);
         return res.status(500).json({

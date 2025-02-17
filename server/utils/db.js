@@ -1,8 +1,13 @@
-const { Sequelize } = require('sequelize')
+import mongoose from "mongoose";
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASS, {
-    host: process.env.DB_HOST,
-    dialect: 'mysql'
-})
+const dbConnect = async () => {
+    try {
+        await mongoose.connect(process.env.MONGODB_URL);
+        console.log(`DB Connected`);
+    } catch (error) {
+        console.log("MONGODB Connection Error ", error);
+        process.exit(1)
+    }
+};
 
-module.exports = sequelize;
+export default dbConnect;

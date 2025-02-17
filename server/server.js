@@ -1,11 +1,14 @@
-require('dotenv').config();
-const express = require('express')
-const bodyParser = require("body-parser");
-const sequelize = require('./utils/db')
+import dotenv from 'dotenv';
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import authRouter from './routes/auth.routes.js';
+import dbConnect from './utils/db.js';
+
+dotenv.config();
+
 const app = express()
 const port = process.env.PORT || 3000
-const cors = require("cors");
-const authRouter = require('./routes/auth.routes')
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -13,11 +16,10 @@ app.use(cors({
     origin: "*"
 }));
 
+dbConnect()
+
 app.use('/api/user', authRouter);
 
-sequelize.sync({ force: false })
-    .then(() => {
-        app.listen(port, () => {
-            console.log(`Server listening on http://localhost:${port}`)
-        })
-    })
+app.listen(port, () => {
+    console.log(`Server listening on http://localhost:${port}`)
+})
